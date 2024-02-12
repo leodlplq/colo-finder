@@ -45,9 +45,17 @@
   
   
     <section class="max-w-7xl mx-auto">
+        
         @if(auth.isAuthenticated)
             <p>Bonjour {{ auth.user.firstname}}</p>
+            @if(auth.user.isAdmin)
+            <p>Vous etes admin</p>
+            @else
+            <p>Gros lambda</p>
+            @end
         @end
+
+        
         {{{ await $slots.main() }}}
     </section>
 </body>
