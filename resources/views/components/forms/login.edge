@@ -1,0 +1,7 @@
+<form class="flex flex-col gap-3 w-full" method="POST" action="{{ route('do.login') }}">
+  {{ csrfField() }}
+  @!textInput({ type: 'email', name: 'email', placeholder: 'harry.potter@poudlard.com', label: 'Mail'}) 
+  @!textInput({ type: 'password', name: 'password', placeholder: 'Mot de passe', label: 'Mot de passe'}) 
+
+  @!button({ content : `S'inscrire`, variant: 'outline' })
+</form>

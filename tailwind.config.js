@@ -2,7 +2,11 @@
 export default {
   content: ['./resources/**/*.{edge,js,ts,jsx,tsx,vue}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#DF2935',
+      },
+    },
   },
   plugins: [],
 }
