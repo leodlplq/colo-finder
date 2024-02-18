@@ -1,3 +1,19 @@
 @layouts.app({ })
-<h1>A book</h1>
+<section>
+  <nav class="p-4 mb-4">
+    <a href="{{ route('books.index') }}">⬅️ Retour</a>
+  </nav>
+  <header class="flex gap-4">
+    <img src="{{ book.cover }}" class="h-64">
+    <div>
+      <h1>{{ book.name }}</h1>
+      <p>{{ new Date(book.release_date) }}</p>
+    </div>
+  </header>
+
+  <div class="mt-4">
+    <h2>Les coloriages</h2>
+  </div>
+</section>
+
 @end
