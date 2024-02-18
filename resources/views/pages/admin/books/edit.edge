@@ -1,3 +1,7 @@
 @layouts.app({ })
-<h1>Edit a book</h1>
+<div class="w-1/2 mx-auto">
+  <h1>Modifier : {{ book.name }}</h1>
+  @!forms.books.updateBook({ book })
+  {{-- {{ inspect(request.ctx.session) }} --}}
+</div>
 @end

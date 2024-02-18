@@ -16,8 +16,8 @@ export default class Book extends BaseModel {
     return this.image_url ? '/uploads/' + this.image_url : 'none'
   }
 
-  @column()
-  declare release_date: Date
+  @column.date()
+  declare release_date: DateTime
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

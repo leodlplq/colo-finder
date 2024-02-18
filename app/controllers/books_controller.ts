@@ -1,8 +1,14 @@
 import Book from '#models/book'
-import { storeBookCoverValidation, storeBookValidation } from '#validators/book'
+import {
+  storeBookCoverValidation,
+  storeBookValidation,
+  updateBookCoverValidation,
+  updateBookValidation,
+} from '#validators/book'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
+import { DateTime } from 'luxon'
 
 export default class BooksController {
   async index({ view }: HttpContext) {
@@ -26,7 +32,7 @@ export default class BooksController {
 
     Book.create({
       name,
-      release_date: releaseDate,
+      release_date: DateTime.fromJSDate(releaseDate),
       image_url: cover.fileName,
     })
 
@@ -39,10 +45,28 @@ export default class BooksController {
   }
 
   async edit({ view, params }: HttpContext) {
-    return view.render('pages/admin/books/edit')
+    const book = await Book.findOrFail(params.id)
+    return view.render('pages/admin/books/edit', { book })
   }
 
-  async update({ params, request }: HttpContext) {}
+  async update({ params, request, response }: HttpContext) {
+    const book = await Book.findOrFail(params.id)
+    const data = request.all()
+    const { name, release_date: releaseDate } = await updateBookValidation.validate(data)
+    const { cover } = await request.validateUsing(updateBookCoverValidation)
+
+    book.name = name
+    book.release_date = DateTime.fromJSDate(releaseDate)
+
+    if (cover) {
+      await cover.move(app.makePath('uploads'), { name: `${cuid()}.${cover.extname}` })
+      book.image_url = cover?.fileName || book.image_url
+    }
+
+    book.save()
+
+    return response.redirect().toRoute('books.index')
+  }
 
   async destroy({ params }: HttpContext) {}
 }

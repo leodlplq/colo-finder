@@ -15,3 +15,21 @@ export const storeBookCoverValidation = vine.compile(
     }),
   })
 )
+
+export const updateBookValidation = vine.compile(
+  vine.object({
+    name: vine.string().trim(),
+    release_date: vine.date(),
+  })
+)
+
+export const updateBookCoverValidation = vine.compile(
+  vine.object({
+    cover: vine
+      .file({
+        size: '2mb',
+        extnames: ['jpg', 'png'],
+      })
+      .optional(),
+  })
+)
