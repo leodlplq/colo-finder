@@ -68,5 +68,10 @@ export default class BooksController {
     return response.redirect().toRoute('books.index')
   }
 
-  async destroy({ params }: HttpContext) {}
+  async destroy({ params, response }: HttpContext) {
+    const book = await Book.findOrFail(params.id)
+    book.delete()
+
+    return response.redirect().toRoute('books.index')
+  }
 }
