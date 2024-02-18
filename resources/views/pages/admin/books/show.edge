@@ -8,7 +8,9 @@
     <div>
       <h1>{{ book.name }}</h1>
       <p>{{ new Date(book.release_date) }}</p>
+      @!buttonLink({href: route('books.edit', book), label: 'Modifier'})
     </div>
+
   </header>
 
   <div class="mt-4">
