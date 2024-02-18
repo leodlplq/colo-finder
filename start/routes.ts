@@ -12,6 +12,8 @@ const SessionController = () => import('#controllers/session_controller')
 const AdminController = () => import('#controllers/admin_controller')
 const BooksController = () => import('#controllers/books_controller')
 import { middleware } from '#start/kernel'
+import { HttpContext } from '@adonisjs/core/http'
+import app from '@adonisjs/core/services/app'
 import router from '@adonisjs/core/services/router'
 
 router
@@ -33,3 +35,7 @@ router
   })
   .prefix('/admin')
   .middleware([middleware.auth(), middleware.admin()])
+
+router.get('uploads/:filename', async ({ response, params }: HttpContext) => {
+  return response.download(app.makePath('uploads', params.filename))
+})

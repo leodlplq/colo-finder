@@ -6,8 +6,9 @@ import app from '@adonisjs/core/services/app'
 
 export default class BooksController {
   async index({ view }: HttpContext) {
-    const books = Book.all()
-    return view.render('pages/admin/books/index', { books })
+    const books = await Book.all()
+    const reversedBooks = books.toReversed()
+    return view.render('pages/admin/books/index', { books: reversedBooks })
   }
 
   async create({ view }: HttpContext) {
@@ -33,7 +34,8 @@ export default class BooksController {
   }
 
   async show({ view, params }: HttpContext) {
-    return view.render('pages/admin/books/show')
+    const book = await Book.findOrFail(params.id)
+    return view.render('pages/admin/books/show', { book })
   }
 
   async edit({ view, params }: HttpContext) {
