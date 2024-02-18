@@ -1,11 +1,23 @@
 @layouts.app({ })
 <div class="flex justify-between items-center">
-  <h1>Books</h1>
+  <h1>Les livres</h1>
   <a href="{{ route('books.create') }}">Ajouter un livre</a>
 </div>
-
+{{-- {{ inspect(books) }} --}}
 @if(books.length > 0)
-Afficher les livres
+<ul class="grid grid-cols-5 gap-2">
+  @each(book in books)
+  <li class="rounded p-2 border relative group overflow-hidden">
+    <a href="{{ route('books.show', book)}}">
+      <img src="{{ book.cover }}" alt="ouais oauis" class="aspect-[29,7/21] h-full rounded">
+      <div
+        class="bg-gradient-to-t from-primary text-center font-bold absolute top-full left-0 w-full h-full p-4 flex justify-center items-end group-hover:top-0 transition-all ease-in">
+        <p class="text-white">{{book.name}}</p>
+      </div>
+    </a>
+  </li>
+  @end
+</ul>
 @else
 <span>Pas encore de livre</span>
 @end
