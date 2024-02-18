@@ -10,6 +10,7 @@
 const AuthController = () => import('#controllers/auth_controller')
 const SessionController = () => import('#controllers/session_controller')
 const AdminController = () => import('#controllers/admin_controller')
+const BooksController = () => import('#controllers/books_controller')
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 
@@ -28,6 +29,7 @@ router.post('/logout', [AuthController, 'logout']).use(middleware.auth()).as('do
 router
   .group(() => {
     router.get('/', [AdminController, 'index']).as('show.admin')
+    router.resource('books', BooksController).as('books')
   })
   .prefix('/admin')
   .middleware([middleware.auth(), middleware.admin()])

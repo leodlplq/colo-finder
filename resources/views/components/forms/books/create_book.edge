@@ -1,0 +1,10 @@
+<form class="flex flex-col gap-3 w-full" method="POST" action="{{ route('books.store') }}"
+  enctype="multipart/form-data">
+  {{ csrfField() }}
+  @!textInput({ type: 'text', name: 'name', placeholder: 'Grands classique N°1', label: 'Nom du livre'})
+  @!textInput({ type: 'date', label: 'Date de sortie', name: 'release_date'})
+  @!fileInput({name: 'cover'})
+  {{-- <input type="file" name="cover" id="cover" multiple /> --}}
+
+  @!button({ content : `Créer` })
+</form>

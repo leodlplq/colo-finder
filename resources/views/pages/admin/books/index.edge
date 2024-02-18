@@ -1,0 +1,12 @@
+@layouts.app({ })
+<div class="flex justify-between items-center">
+  <h1>Books</h1>
+  <a href="{{ route('books.create') }}">Ajouter un livre</a>
+</div>
+
+@if(books.length > 0)
+Afficher les livres
+@else
+<span>Pas encore de livre</span>
+@end
+@end

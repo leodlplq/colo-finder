@@ -1,19 +1,15 @@
-<div class="w-full flex flex-col-reverse gap-2">
+<div class="w-full flex flex-col-reverse">
   <ul class="text-red-500 text-xs">
-  @inputError(name)
-      @each(message in $messages)
-        <li class=""> {{ message }} </li>
-      @end
+    @inputError(name)
+    @each(message in $messages)
+    <li class=""> {{ message }} </li>
+    @end
     @end
   </ul>
-  <input 
-    type="{{ type || 'text' }}" 
-    placeholder="{{ placeholder || '' }}"
-    name="{{ name }}"
-    id="{{ name }}"
-    class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50 peer" 
-  />
+  <input type="{{ type || 'text' }}" placeholder="{{ placeholder || '' }}" name="{{ name }}" id="{{ name }}"
+    class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50 peer" />
   @if(label !== undefined)
-    <label for="{{ name }}" class="peer-focus:text-primary">{{ label }}</label>
+  <label for="{{ name }}" class="block mb-1 text-sm font-medium text-neutral-500 peer-focus:text-primary">{{ label
+    }}</label>
   @endif
 </div>
