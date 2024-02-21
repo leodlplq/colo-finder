@@ -1,16 +1,21 @@
 import Book from '#models/book'
+import { BookService } from '#services/book_service'
 import {
   storeBookCoverValidation,
   storeBookValidation,
   updateBookCoverValidation,
   updateBookValidation,
 } from '#validators/book'
+import { inject } from '@adonisjs/core'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 import { DateTime } from 'luxon'
 
+@inject()
 export default class BooksController {
+  constructor(protected bookService: BookService) {}
+
   async index({ view }: HttpContext) {
     const books = await Book.all()
     const reversedBooks = books.toReversed()
@@ -70,7 +75,7 @@ export default class BooksController {
 
   async destroy({ params, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
-    book.delete()
+    this.bookService.deleteBook(book)
 
     return response.redirect().toRoute('books.index')
   }
