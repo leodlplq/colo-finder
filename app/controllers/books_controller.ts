@@ -56,19 +56,12 @@ export default class BooksController {
 
   async update({ params, request, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
+
     const data = request.all()
     const { name, release_date: releaseDate } = await updateBookValidation.validate(data)
     const { cover } = await request.validateUsing(updateBookCoverValidation)
 
-    book.name = name
-    book.release_date = DateTime.fromJSDate(releaseDate)
-
-    if (cover) {
-      await cover.move(app.makePath('uploads'), { name: `${cuid()}.${cover.extname}` })
-      book.image_url = cover?.fileName || book.image_url
-    }
-
-    book.save()
+    this.bookService.updateBook({ name, releaseDate, cover }, book)
 
     return response.redirect().toRoute('books.index')
   }
