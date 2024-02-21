@@ -1,10 +1,11 @@
 import { withAuthFinder } from '@adonisjs/auth'
 import { compose } from '@adonisjs/core/helpers'
 import hash from '@adonisjs/core/services/hash'
-import { BaseModel, belongsTo, column, computed } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Roles from '../enums/roles.js'
+import Coloring from './coloring.js'
 import Role from './role.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
@@ -44,4 +45,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+
+  @hasMany(() => Coloring)
+  declare submitted_colorings: HasMany<typeof Coloring>
 }
