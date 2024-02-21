@@ -7,10 +7,7 @@ import {
   updateBookValidation,
 } from '#validators/book'
 import { inject } from '@adonisjs/core'
-import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
-import app from '@adonisjs/core/services/app'
-import { DateTime } from 'luxon'
 
 @inject()
 export default class BooksController {
@@ -31,15 +28,7 @@ export default class BooksController {
     const { name, release_date: releaseDate } = await storeBookValidation.validate(data)
     const { cover } = await request.validateUsing(storeBookCoverValidation)
 
-    if (cover) {
-      await cover.move(app.makePath('uploads'), { name: `${cuid()}.${cover.extname}` })
-    }
-
-    Book.create({
-      name,
-      release_date: DateTime.fromJSDate(releaseDate),
-      image_url: cover.fileName,
-    })
+    this.bookService.createBook({ name, releaseDate, cover })
 
     return response.redirect().toRoute('books.index')
   }

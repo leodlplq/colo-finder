@@ -11,10 +11,29 @@ interface UpdateBookPayload {
   cover: MultipartFile | null | undefined
 }
 
+interface StoreBookPayload {
+  name: string
+  releaseDate: Date
+  cover: MultipartFile
+}
 export class BookService {
   deleteBookCover(book: Book) {
     fs.unlink(process.cwd() + app.makePath(book.cover), (err) => {
       err ? console.log(err) : console.log('File is deleted')
+    })
+  }
+
+  async createBook(payload: StoreBookPayload) {
+    const { name, releaseDate, cover } = payload
+
+    if (cover) {
+      await cover.move(app.makePath('uploads'), { name: `${cuid()}.${cover.extname}` })
+    }
+
+    Book.create({
+      name,
+      release_date: DateTime.fromJSDate(releaseDate),
+      image_url: cover.fileName,
     })
   }
 
