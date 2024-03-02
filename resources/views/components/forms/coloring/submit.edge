@@ -1,0 +1,9 @@
+<form class="flex flex-col gap-3 w-full" method="POST" action="{{ route('do.submit-coloring') }}"
+  enctype="multipart/form-data">
+  {{ csrfField() }}
+  @!select({data: books, label: 'Livre', name: 'book_id'})
+  @!textInput({ name: 'number', type: 'number', placeholder: 'Numéro du coloriage', label: 'Numéro du coloriage'})
+  @!fileInput({name: 'image'})
+  //ajouter les tags
+  @!button({ content : `Envoyer` })
+</form>

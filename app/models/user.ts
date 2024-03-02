@@ -46,6 +46,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  @hasMany(() => Coloring)
+  @hasMany(() => Coloring, { foreignKey: 'submittedBy' })
   declare submitted_colorings: HasMany<typeof Coloring>
 }

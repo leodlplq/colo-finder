@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.integer('number').notNullable()
       table.string('image_url').notNullable()
       table.integer('submitted_by').unsigned().references('users.id').notNullable()
+      table.boolean('validated').notNullable().defaultTo(false)
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

@@ -1,4 +1,4 @@
-import { BaseModel, belongsTo, column, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, computed, manyToMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Book from './book.js'
@@ -21,11 +21,25 @@ export default class Coloring extends BaseModel {
   @column()
   declare image_url: string
 
-  @belongsTo(() => Book)
+  @column()
+  declare validated: boolean
+
+  @computed()
+  get image() {
+    return '/uploads/colorings' + this.image_url
+  }
+
+  @belongsTo(() => Book, { localKey: 'bookId' })
   declare book: BelongsTo<typeof Book>
 
-  @belongsTo(() => User)
-  declare submitted_by: BelongsTo<typeof User>
+  @column()
+  declare bookId: number
+
+  @belongsTo(() => User, { localKey: 'submittedBy' })
+  declare user: BelongsTo<typeof User>
+
+  @column()
+  declare submittedBy: number
 
   @manyToMany(() => Tag, {
     pivotTable: 'coloring_tag',
